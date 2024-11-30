@@ -89,5 +89,44 @@ class Taller3 {
     }
 
 
- 
+    // Versión paralela de la multiplicación de matrices con la versión recursiva
+    def multMatrizRecPar(m1: Matriz, m2: Matriz, umbral: Int = 64): Matriz = {
+        val n = m1.length
+        if (n <= umbral) {
+            // Caso base: usar la versión secuencial
+            multMatrizRec(m1, m2)
+        } else {
+            // Dividir las matrices en submatrices de tamaño n/2
+            val half = n / 2
+
+            val (a11, a12, a21, a22) = (
+            subMatriz(m1, 0, 0, half),
+            subMatriz(m1, 0, half, half),
+            subMatriz(m1, half, 0, half),
+            subMatriz(m1, half, half, half)
+            )
+            val (b11, b12, b21, b22) = (
+            subMatriz(m2, 0, 0, half),
+            subMatriz(m2, 0, half, half),
+            subMatriz(m2, half, 0, half),
+            subMatriz(m2, half, half, half)
+            )
+
+            // Paralelizar el cálculo de las submatrices
+            val (c11, c12, c21, c22) = parallel(
+            sumMatriz(multMatrizRecPar(a11, b11, umbral), multMatrizRecPar(a12, b21, umbral)),
+            sumMatriz(multMatrizRecPar(a11, b12, umbral), multMatrizRecPar(a12, b22, umbral)),
+            sumMatriz(multMatrizRecPar(a21, b11, umbral), multMatrizRecPar(a22, b21, umbral)),
+            sumMatriz(multMatrizRecPar(a21, b12, umbral), multMatrizRecPar(a22, b22, umbral))
+            )
+
+            // Combinar las submatrices en la matriz resultante usando Vector.tabulate
+            Vector.tabulate(n, n) { (i, j) =>
+            if (i < half && j < half) c11(i)(j)
+            else if (i < half) c12(i)(j - half)
+            else if (j < half) c21(i - half)(j)
+            else c22(i - half)(j - half)
+            }
+        }
+    }
 }
