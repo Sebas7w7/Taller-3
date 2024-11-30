@@ -1,5 +1,7 @@
 package taller
 
+import common._
+
 class Taller3 {
     
     type Matriz = Vector[Vector[Int]]
@@ -46,5 +48,46 @@ class Taller3 {
     def sumMatriz(m1: Matriz, m2: Matriz): Matriz = {
     Vector.tabulate(m1.length, m1.length)((i, j) => m1(i)(j) + m2(i)(j))
     }
-  
+
+    // Versión recursiva de la multiplicación de matrices
+    def multMatrizRec(m1: Matriz, m2: Matriz): Matriz = {
+        val n = m1.length
+        if (n == 1) {
+            // Caso base: multiplicación de un solo elemento
+            Vector(Vector(m1(0)(0) * m2(0)(0)))
+        } else {
+            // Dividir las matrices en submatrices de tamaño n/2
+            val half = n / 2
+
+            val (a11, a12, a21, a22) = (
+                subMatriz(m1, 0, 0, half),
+                subMatriz(m1, 0, half, half),
+                subMatriz(m1, half, 0, half),
+                subMatriz(m1, half, half, half)
+            )
+            val (b11, b12, b21, b22) = (
+                subMatriz(m2, 0, 0, half),
+                subMatriz(m2, 0, half, half),
+                subMatriz(m2, half, 0, half),
+                subMatriz(m2, half, half, half)
+            )
+
+            // Calcular las submatrices de C
+            val c11 = sumMatriz(multMatrizRec(a11, b11), multMatrizRec(a12, b21))
+            val c12 = sumMatriz(multMatrizRec(a11, b12), multMatrizRec(a12, b22))
+            val c21 = sumMatriz(multMatrizRec(a21, b11), multMatrizRec(a22, b21))
+            val c22 = sumMatriz(multMatrizRec(a21, b12), multMatrizRec(a22, b22))
+
+            // Construir la matriz resultante
+            Vector.tabulate(n, n) { (i, j) =>
+                if (i < half && j < half) c11(i)(j)
+                else if (i < half) c12(i)(j - half)
+                else if (j < half) c21(i - half)(j)
+                else c22(i - half)(j - half)
+            }
+        }
+    }
+
+
+ 
 }
