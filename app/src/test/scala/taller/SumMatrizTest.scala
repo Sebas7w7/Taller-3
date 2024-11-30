@@ -6,18 +6,18 @@ import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class SumMatrizTest extends AnyFunSuite {
-  type Matriz = Vector[Vector[Int]]
+  
   val taller3 = new Taller3()
 
 
-  val matriz1: Matriz = Vector(
+  val matriz1 = Vector(
     Vector(1, 2, 3, 4),
     Vector(5, 6, 7, 8),
     Vector(9, 10, 11, 12),
     Vector(13, 14, 15, 16)
   )
 
-  val matriz2: Matriz = Vector(
+  val matriz2 = Vector(
     Vector(4, 3, 2, 1),
     Vector(8, 7, 6, 5),
     Vector(12, 11, 10, 9),
@@ -45,12 +45,12 @@ class SumMatrizTest extends AnyFunSuite {
   }
 
   test("Suma de matriz con una matriz de ceros") {
-    val matrizCero: Matriz = Vector.fill(4, 4)(0)
+    val matrizCero = Vector.fill(4, 4)(0)
     assert(taller3.sumMatriz(matriz1, matrizCero) == matriz1)
   }
 
   test("Suma de una matriz con una de valores negativos") {
-    val matrizNegativa: Matriz = Vector(
+    val matrizNegativa = Vector(
       Vector(-1, -2, -3, -4),
       Vector(-5, -6, -7, -8),
       Vector(-9, -10, -11, -12),
@@ -61,8 +61,8 @@ class SumMatrizTest extends AnyFunSuite {
   }
 
   test("Suma de matrices con valores extremos") {
-    val matrizMaximos: Matriz = Vector.fill(4, 4)(Int.MaxValue)
-    val matrizMinimos: Matriz = Vector.fill(4, 4)(Int.MinValue)
+    val matrizMaximos = Vector.fill(4, 4)(Int.MaxValue)
+    val matrizMinimos = Vector.fill(4, 4)(Int.MinValue)
     val resultadoEsperado = Vector.fill(4, 4)(-1)
     assert(taller3.sumMatriz(matrizMaximos, matrizMinimos) == resultadoEsperado)
   }
