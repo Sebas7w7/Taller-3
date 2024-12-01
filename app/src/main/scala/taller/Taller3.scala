@@ -52,14 +52,12 @@ class Taller3 {
         }
     }
 
-
-
-   def subMatriz(m: Matriz, i: Int, j: Int, l: Int): Matriz = {
-    Vector.tabulate(l, l)((x, y) => m(i + x)(j + y))
+    def subMatriz(m: Matriz, i: Int, j: Int, l: Int): Matriz = {
+        Vector.tabulate(l, l)((x, y) => m(i + x)(j + y))
     }
 
     def sumMatriz(m1: Matriz, m2: Matriz): Matriz = {
-    Vector.tabulate(m1.length, m1.length)((i, j) => m1(i)(j) + m2(i)(j))
+        Vector.tabulate(m1.length, m1.length)((i, j) => m1(i)(j) + m2(i)(j))
     }
 
     // Versión recursiva de la multiplicación de matrices
@@ -142,4 +140,9 @@ class Taller3 {
             }
         }
     }
+
+    def restaMatriz(m1: Matriz, m2: Matriz): Matriz = {
+        Vector.tabulate(m1.length, m1.length)((i, j) => m1(i)(j) - m2(i)(j))
+    }
+
 }
