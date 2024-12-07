@@ -5,7 +5,7 @@ import org.junit.runner.RunWith
 import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class MultSrassenTest extends AnyFunSuite {
+class MultStrassenTest extends AnyFunSuite {
 
   val taller3 = new Taller3()
 

@@ -148,7 +148,7 @@ class Taller3 {
   def multStrassen(m1: Matriz, m2: Matriz): Matriz = {
     // Verificar que las matrices son cuadradas y tienen dimensiones iguales
     val n = m1.length
-    require(n == m2.length && (n & (n - 1)) == 0, "Las matrices deben ser cuadradas y de dimensiones potencia de 2")
+    require(n == m2.length && (n & (n - 1)) == 0)
 
     if (n == 1) {
       // Caso base: multiplicación de un único elemento
@@ -195,4 +195,65 @@ class Taller3 {
       }
     }
   }
+
+  def multStrassenPar(m1: Matriz, m2: Matriz): Matriz = {
+    // Verificar que las matrices son cuadradas y tienen dimensiones iguales
+    val n = m1.length
+    require(n == m2.length && (n & (n - 1)) == 0)
+
+    if (n == 1) {
+      // Caso base: multiplicación de un único elemento
+      Vector(Vector(m1(0)(0) * m2(0)(0)))
+    } else {
+      // Dividir las matrices en submatrices de tamaño n/2
+      val half = n / 2
+
+      val (a11, a12, a21, a22) = (
+        subMatriz(m1, 0, 0, half),
+        subMatriz(m1, 0, half, half),
+        subMatriz(m1, half, 0, half),
+        subMatriz(m1, half, half, half)
+      )
+
+      val (b11, b12, b21, b22) = (
+        subMatriz(m2, 0, 0, half),
+        subMatriz(m2, 0, half, half),
+        subMatriz(m2, half, 0, half),
+        subMatriz(m2, half, half, half)
+      )
+
+      // Paralelizar las 7 multiplicaciones de Strassen en dos grupos
+      val (p1, p2, p3, p4) = parallel(
+        multStrassenPar(a11, restaMatriz(b12, b22)),
+        multStrassenPar(sumMatriz(a11, a12), b22),
+        multStrassenPar(sumMatriz(a21, a22), b11),
+        multStrassenPar(a22, restaMatriz(b21, b11))
+      )
+
+      val (p5, temp) = parallel(
+        multStrassenPar(sumMatriz(a11, a22), sumMatriz(b11, b22)),
+        parallel(
+          multStrassenPar(restaMatriz(a12, a22), sumMatriz(b21, b22)),
+          multStrassenPar(restaMatriz(a11, a21), sumMatriz(b11, b12))
+        )
+      )
+
+      val (p6, p7) = temp
+
+      // Combinar los resultados de las submatrices
+      val c11 = sumMatriz(restaMatriz(sumMatriz(p5, p4), p2), p6)
+      val c12 = sumMatriz(p1, p2)
+      val c21 = sumMatriz(p3, p4)
+      val c22 = restaMatriz(restaMatriz(sumMatriz(p5, p1), p3), p7)
+
+      // Reconstruir la matriz resultante
+      Vector.tabulate(n, n) { (i, j) =>
+        if (i < half && j < half) c11(i)(j)
+        else if (i < half) c12(i)(j - half)
+        else if (j < half) c21(i - half)(j)
+        else c22(i - half)(j - half)
+      }
+    }
+  }
+
 }
