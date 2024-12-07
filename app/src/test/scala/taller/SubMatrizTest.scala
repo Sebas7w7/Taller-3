@@ -9,19 +9,11 @@ class MatrizTest extends AnyFunSuite {
 
   val taller3 = new Taller3()
 
-
   val matriz = Vector(
     Vector(1, 2, 3, 4),
     Vector(5, 6, 7, 8),
     Vector(9, 10, 11, 12),
     Vector(13, 14, 15, 16)
-  )
-
-  val matriz2 = Vector(
-    Vector(4, 3, 2, 1),
-    Vector(8, 7, 6, 5),
-    Vector(12, 11, 10, 9),
-    Vector(16, 15, 14, 13)
   )
 
   // Test para subMatriz
