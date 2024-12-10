@@ -25,6 +25,10 @@ class Taller3 {
     (v1 zip v2).map({ case (i, j) => (i * j) }).sum
   }
 
+  def prodPuntoParD (v1: ParVector[Int], v2: ParVector[Int]): Int = {
+    (v1 zip v2).map({case (i,j) => (i * j)}) . sum
+  }
+
   // Función para calcular la transpuesta de una matriz
   def transpuesta(m: Matriz): Matriz = {
     val l = m.length

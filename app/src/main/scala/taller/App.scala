@@ -3,10 +3,107 @@
  */
 package taller
 
+import org.scalameter._
+import common._
+import taller.Taller3
+import scala.util.Random
+import scala.collection.parallel.immutable.ParVector
+
 object App {
+
   def main(args: Array[String]): Unit = {
     println(greeting())
+    println("\n....... Iniciando benchmarking .......")
+    benchmarkingVectores()
+    benchmarkingMultMatriz()
+    benchmarkingMultMatrizRec()
+    benchmarkingMultStrassen()
+  }
+  def greeting(): String = "Hello, World!"
+
+  def benchmarkingVectores(): Unit = {
+    val taller = new Taller3()
+    println("\n------------- Benchmarking: Producto Punto de Vectores ----------------")
+    for (i <- 1 to 7) {
+      val size = math.pow(2, i).toInt
+      val v1: Vector[Int] = Vector.fill(size)(Random.nextInt())
+      val v2: Vector[Int] = Vector.fill(size)(Random.nextInt())
+      val v1Par = v1.to(ParVector)
+      val v2Par = v2.to(ParVector)
+
+      println(f"\nIteración $i: Tamaño Vector = ${size}") 
+      println("\n...... Secuencial ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.prodPunto(v1, v2)
+      })
+
+      println("\n......  Paralelo ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.prodPuntoParD(v1Par, v2Par)
+      })
+    }
   }
 
-  def greeting(): String = "Hello, World!"
+  def benchmarkingMultMatriz(): Unit = {
+    val taller = new Taller3()
+    println("\n------------- Benchmarking: Multiplicación de Matrices Secuencial y Paralela ----------------")
+    for (i <- 3 to 8) {
+      val size = math.pow(2, i).toInt
+      val m1 = taller.matrizAlAzar(size, 100)
+      val m2 = taller.matrizAlAzar(size, 100)
+
+      println(f"\n ------ | Tamaño Matriz: [${size} x ${size}] | ------")
+      println("\n...... Secuencial ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.multMatriz(m1, m2)
+      })
+
+      println("\n...... Paralelo ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.multMatrizPar(m1, m2)
+      })
+    }
+  }
+
+  def benchmarkingMultMatrizRec(): Unit = {
+    val taller = new Taller3()
+    println("\n------------- Benchmarking: Multiplicación Recursiva de Matrices Secuencial y Paralela ----------------")
+    for (i <- 3 to 8) {
+      val size = math.pow(2, i).toInt
+      val m1 = taller.matrizAlAzar(size, 100)
+      val m2 = taller.matrizAlAzar(size, 100)
+
+      println(f"\n ------ | Tamaño Matriz: [${size} x ${size}] | ------")
+      println("\n...... Secuencial ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.multMatrizRec(m1, m2)
+      })
+
+      println("\n...... Paralelo ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.multMatrizRecPar(m1, m2, umbral = 64)
+      })
+    }
+  }
+
+  def benchmarkingMultStrassen(): Unit = {
+    val taller = new Taller3()
+    println("\n------------- Benchmarking: Multiplicación de Matrices con Algoritmo de Strassen ----------------")
+    for (i <- 3 to 8) {
+      val size = math.pow(2, i).toInt
+      val m1 = taller.matrizAlAzar(size, 100)
+      val m2 = taller.matrizAlAzar(size, 100)
+
+      println(f"\n ------ | Tamaño Matriz: [${size} x ${size}] | ------")
+      println("\n...... Secuencial ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.multStrassen(m1, m2)
+      })
+
+      println("\n...... Paralelo ......")
+      println(withWarmer(new Warmer.Default) measure {
+        taller.multStrassenPar(m1, m2)
+      })
+    }
+  }
 }

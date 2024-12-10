@@ -1,0 +1,210 @@
+....... Iniciando benchmarking .......
+
+------------- Benchmarking: Producto Punto de Vectores ----------------
+
+Iteración 1: Tamaño Vector = 2
+
+...... Secuencial ......
+Unable to create a system terminal
+0.0559 ms
+
+......  Paralelo ......
+0.6237 ms
+
+Iteración 2: Tamaño Vector = 4
+
+...... Secuencial ......
+0.0164 ms
+
+......  Paralelo ......
+0.6649 ms
+
+Iteración 3: Tamaño Vector = 8
+
+...... Secuencial ......
+0.0329 ms
+
+......  Paralelo ......
+0.5848 ms
+
+Iteración 4: Tamaño Vector = 16
+
+...... Secuencial ......
+0.0288 ms
+
+......  Paralelo ......
+0.4523 ms
+
+Iteración 5: Tamaño Vector = 32
+
+...... Secuencial ......
+0.0515 ms
+
+......  Paralelo ......
+0.4959 ms
+
+Iteración 6: Tamaño Vector = 64
+
+...... Secuencial ......
+0.0503 ms
+
+......  Paralelo ......
+0.3326 ms
+
+Iteración 7: Tamaño Vector = 128
+
+...... Secuencial ......
+0.0767 ms
+
+......  Paralelo ......
+1.0674 ms
+
+------------- Benchmarking: Multiplicación de Matrices Secuencial y Paralela ----------------
+
+ ------ | Tamaño Matriz: [8 x 8] | ------
+
+...... Secuencial ......
+0.1818 ms
+
+...... Paralelo ......
+1.9954 ms
+
+ ------ | Tamaño Matriz: [16 x 16] | ------
+
+...... Secuencial ......
+0.6473 ms
+
+...... Paralelo ......
+2.888 ms
+
+ ------ | Tamaño Matriz: [32 x 32] | ------
+
+...... Secuencial ......
+0.732 ms
+
+...... Paralelo ......
+7.2356 ms
+
+ ------ | Tamaño Matriz: [64 x 64] | ------
+
+...... Secuencial ......
+4.9691 ms
+
+...... Paralelo ......
+49.9564 ms
+
+ ------ | Tamaño Matriz: [128 x 128] | ------
+
+...... Secuencial ......
+39.6246 ms
+
+...... Paralelo ......
+186.8407 ms
+
+ ------ | Tamaño Matriz: [256 x 256] | ------
+
+...... Secuencial ......
+311.1465 ms
+
+...... Paralelo ......
+962.0485 ms
+
+------------- Benchmarking: Multiplicación Recursiva de Matrices Secuencial y Paralela ----------------
+
+ ------ | Tamaño Matriz: [8 x 8] | ------
+
+...... Secuencial ......
+0.6733 ms
+
+...... Paralelo ......
+0.3265 ms
+
+ ------ | Tamaño Matriz: [16 x 16] | ------
+
+...... Secuencial ......
+1.9606 ms
+
+...... Paralelo ......
+2.5967 ms
+
+ ------ | Tamaño Matriz: [32 x 32] | ------
+
+...... Secuencial ......
+8.5508 ms
+
+...... Paralelo ......
+7.9818 ms
+
+ ------ | Tamaño Matriz: [64 x 64] | ------
+
+...... Secuencial ......
+73.9436 ms
+
+...... Paralelo ......
+72.1889 ms
+
+ ------ | Tamaño Matriz: [128 x 128] | ------
+
+...... Secuencial ......
+622.1244 ms
+
+...... Paralelo ......
+445.4106 ms
+
+ ------ | Tamaño Matriz: [256 x 256] | ------
+
+...... Secuencial ......
+5722.5888 ms
+
+...... Paralelo ......
+3831.1231 ms
+
+------------- Benchmarking: Multiplicación de Matrices con Algoritmo de Strassen ----------------
+
+ ------ | Tamaño Matriz: [8 x 8] | ------
+
+...... Secuencial ......
+0.3599 ms
+
+...... Paralelo ......
+0.5098 ms
+
+ ------ | Tamaño Matriz: [16 x 16] | ------
+
+...... Secuencial ......
+2.3203 ms
+
+...... Paralelo ......
+2.0111 ms
+
+ ------ | Tamaño Matriz: [32 x 32] | ------
+
+...... Secuencial ......
+10.8393 ms
+
+...... Paralelo ......
+9.1537 ms
+
+ ------ | Tamaño Matriz: [64 x 64] | ------
+
+...... Secuencial ......
+79.4769 ms
+
+...... Paralelo ......
+59.4248 ms
+
+ ------ | Tamaño Matriz: [128 x 128] | ------
+
+...... Secuencial ......
+607.3923 ms
+
+...... Paralelo ......
+413.9484 ms
+
+ ------ | Tamaño Matriz: [256 x 256] | ------
+
+...... Secuencial ......
+4122.7361 ms
+
+...... Paralelo ......
+3080.0939 ms
