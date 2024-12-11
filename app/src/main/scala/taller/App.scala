@@ -9,6 +9,7 @@ import taller.Taller3
 import scala.util.Random
 import scala.collection.parallel.immutable.ParVector
 import scala.util.Random
+
 object App {
 
   // Definimos un tipo alias para representar una matriz como un vector de vectores.
@@ -24,6 +25,7 @@ object App {
     benchmarkingMultMatrizRec()
     benchmarkingMultStrassen()
   }
+
   def greeting(): String = "Hello, World!"
 
   // Método para realizar el benchmarking de la operación de producto punto de vectores.
@@ -67,7 +69,7 @@ object App {
     realizarBenchmarking(taller, 7, taller.multStrassen, taller.multStrassenPar, "Secuencial", "Paralelo")
   }
 
-  // Método auxiliar para realizar el benchmarking de las operaciones de multiplicación de matrices.
+  // Función auxiliar para realizar el benchmarking de las operaciones de multiplicación de matrices.
   def realizarBenchmarking(
     
     taller: Taller3, // Instancia de la clase que contiene las implementaciones de las operaciones.
