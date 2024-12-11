@@ -6,6 +6,7 @@ import scala.collection.parallel.immutable.ParVector
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.collection.parallel.CollectionConverters._
+import org.scalameter._
 
 class Taller3 {
 
@@ -260,4 +261,37 @@ class Taller3 {
     }
   }
 
+  def compararAlgoritmos(
+    funcionSecuencial: (Matriz, Matriz) => Matriz,
+    funcionParalela: (Matriz, Matriz) => Matriz,
+    nombreSecuencial: String,
+    nombreParalelo: String
+  )(matriz1: Matriz, matriz2: Matriz): Unit = {
+    val tiempoSecuencial = withWarmer(new Warmer.Default) measure { funcionSecuencial(matriz1, matriz2) }
+    val tiempoParalelo = withWarmer(new Warmer.Default) measure { funcionParalela(matriz1, matriz2) }
+
+    val aceleracion = tiempoSecuencial.value / tiempoParalelo.value
+
+    println(f"\nTiempo $nombreSecuencial: ${tiempoSecuencial.value}%.4f ms")
+    println(f"Tiempo $nombreParalelo: ${tiempoParalelo.value}%.4f ms")
+    println(f"Aceleración: $aceleracion%.4f")
+  }
+
+  def compararProdPunto(
+    funcionSecuencial: (Vector[Int], Vector[Int]) => Int,
+    funcionParalela: (ParVector[Int], ParVector[Int]) => Int,
+    nombreSecuencial: String,
+    nombreParalelo: String
+  )(vector1: Vector[Int], vector2: Vector[Int]): Unit = {
+    val tiempoSecuencial = withWarmer(new Warmer.Default) measure { funcionSecuencial(vector1, vector2) }
+    val tiempoParalelo = withWarmer(new Warmer.Default) measure { funcionParalela(vector1.par, vector2.par) }
+
+    val aceleracion = tiempoSecuencial.value / tiempoParalelo.value
+
+    println(f"\nTiempo $nombreSecuencial: ${tiempoSecuencial.value}%.4f ms")
+    println(f"Tiempo $nombreParalelo: ${tiempoParalelo.value}%.4f ms")
+    println(f"Aceleración: $aceleracion%.4f")
+  }
 }
+
+
